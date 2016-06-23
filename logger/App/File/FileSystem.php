@@ -1,12 +1,19 @@
 <?php
 namespace App\File;
 
-
 use App\Abstr\Logger;
 
+/**
+ * Writes a log data to file
+ */
 class FileSystem extends Logger
 {
-
+    /**
+     * Writes a log message to file
+     *
+     * @param $message
+     * @param $type
+     */
     protected function _write($message,$type){
         $config = parse_ini_file('Config/config.ini');
         if(is_writable($config['file_path'])) {
