@@ -1,18 +1,18 @@
 <?php
+namespace App\DB;
 
-require_once ('Logger.php');
-
+use App\Abstr\Logger;
 
 class DataBase extends Logger
 {
     protected $_connect = NULL;
     
     public function __construct(){
-        $config = parse_ini_file('config.ini');
+        $config = parse_ini_file('Config/config.ini');
         $dsn = $config['dsn'];
         $user = $config['username'];
         $password = $config['password'];
-        $this->_connect = new PDO($dsn, $user, $password);
+        $this->_connect = new \PDO($dsn, $user, $password);
     }
     protected function _write($message,$type){
         try {

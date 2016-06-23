@@ -1,5 +1,7 @@
 <?php
-require_once ('LoggerInterface.php');
+namespace App\Abstr;
+
+use App\LoggerInterface;
 
 abstract class Logger implements LoggerInterface
 {
