@@ -1,12 +1,14 @@
 <?php
+use App\File\FileSystem;
+use App\DB\DataBase;
 
 function __autoload($classname){
     $path = str_replace('\\','/',$classname);
     require_once $path . '.php';
 }
 
-$file = new \App\File\FileSystem();
-$db_log = new \App\DB\DataBase();
+$file = new FileSystem();
+$db_log = new DataBase();
 
-$file->error('PDO Exeption!!!!');
-$db_log->error('Syntax error? unexpected ";"!!!');
+$file->error('Mysql Exeption!!!!');
+$db_log->error('Fatal error? unexpected ";"!!!');
