@@ -1,0 +1,5 @@
+Log warning :Warning somewhere
+Log error message : PDO Exeption!!!!||2016-06-23 12:54:14
+Log error message : PDO Exeption!!!!||2016-06-23 12:54:35
+Log error message : PDO Exeption!!!! || 2016-06-23 12:54:41
+Log notice message : Add a new function!!! || 2016-06-23 12:55:23

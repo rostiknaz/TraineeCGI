@@ -4,5 +4,5 @@ require_once ('DataBase.php');
 
 $file = new FileSystem();
 $db_log = new DataBase();
-$file->warning('Warning somewhere');
-$db_log->error('Something wrong');
+$file->error('PDO Exeption!!!!');
+//$db_log->error('Something wrong');
