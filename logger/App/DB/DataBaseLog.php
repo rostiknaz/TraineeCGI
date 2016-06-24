@@ -1,26 +1,26 @@
 <?php
 namespace App\DB;
 
-use App\Abstr\Logger;
+use App\Abstr\LoggerAbstract;
 /**
  * Class for writing log messages to database
  */
-class DataBase extends Logger
+class DataBaseLog extends LoggerAbstract
 {
     /**
      * Connection to DB
      */
-    protected $_connect = NULL;
+    private $_conn = NULL;
 
     /**
      * Connection process to DB
      */
-    public function __construct(){
+    private function _connect(){
         $config = parse_ini_file('Config/config.ini');
         $dsn = $config['dsn'];
         $user = $config['username'];
         $password = $config['password'];
-        $this->_connect = new \PDO($dsn, $user, $password);
+        $this->_conn = new \PDO($dsn, $user, $password);
     }
 
     /**
@@ -31,9 +31,10 @@ class DataBase extends Logger
      */
     protected function _write($message,$type){
         try {
-            $statement = $this->_connect->prepare("INSERT INTO `log` (`message`, `type`, `creation_date`) values (?, ?, ?)");
+            $this->_connect();
+            $statement = $this->_conn->prepare("INSERT INTO `log` (`message`, `type`, `creation_date`) values (?, ?, ?)");
             $statement->execute([$message, $type, date('Y-m-d H:i:s')]);
-            $this->_connect = null;
+            $this->_conn = null;
         } catch (\PDOException $e) {
             die($e->getMessage());
         }

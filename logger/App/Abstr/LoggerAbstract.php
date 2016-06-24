@@ -4,10 +4,10 @@ namespace App\Abstr;
 use App\LoggerInterface;
 
 /**
- * Abstract class Logger
+ * Abstract class LoggerAbstract
  * Implements LoggerInterface
  */
-abstract class Logger implements LoggerInterface
+abstract class LoggerAbstract implements LoggerInterface
 {
     /**
      * Declares method _write

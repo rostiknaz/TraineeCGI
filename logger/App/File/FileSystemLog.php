@@ -1,12 +1,12 @@
 <?php
 namespace App\File;
 
-use App\Abstr\Logger;
+use App\Abstr\LoggerAbstract;
 
 /**
  * Writes a log data to file
  */
-class FileSystem extends Logger
+class FileSystemLog extends LoggerAbstract
 {
     /**
      * Writes a log message to file
