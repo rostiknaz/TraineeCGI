@@ -2,7 +2,6 @@
 namespace Orm\Helper;
 
 use Orm\Core\OrmInterface;
-use DB\Connect;
 
 abstract class QueryBuilder implements OrmInterface
 {
@@ -15,9 +14,7 @@ abstract class QueryBuilder implements OrmInterface
             $sql = 'INSERT INTO ' . $this->_getTableName()
                 . '(' . implode(', ',array_keys($this->_getPropetries())) . ') VALUES('
                 . implode(', ',array_values($this->_getPropetries())) . ')';
-            $result = $this->_conn->query($sql);
-            $this->_conn = null;
-            return $result;
+            return $this->_execute($sql);
         } catch (\PDOException $e) {
             die($e->getMessage());
         }
@@ -25,7 +22,7 @@ abstract class QueryBuilder implements OrmInterface
 
     public function find()
     {
-        $this->_sql = 'SELECT * FROM ' . $this->_tableName;
+        $this->_sql = 'SELECT * FROM ' . $this->_getTableName();
         return $this;
     }
 
@@ -50,7 +47,7 @@ abstract class QueryBuilder implements OrmInterface
                 default:
                     $result = false;
             }
-            $this->_conn = null;
+//            $this->_conn = null;
             return $result;
         } catch (\PDOException $e) {
             die($e->getMessage());
@@ -91,7 +88,7 @@ abstract class QueryBuilder implements OrmInterface
     {
         $sth = $this->_conn->prepare($sql);
         $result = $sth->execute($params);
-        $this->_conn = null;
+//        $this->_conn = null;
         return $result;
     }
 

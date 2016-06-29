@@ -20,6 +20,11 @@ class Model extends QueryBuilder
         $this->_conn = $db->connect();
     }
 
+    public function __destruct()
+    {
+        $this->_conn = null;
+    }
+
     protected function _getTableName()
     {
         return $this->_tableName;
