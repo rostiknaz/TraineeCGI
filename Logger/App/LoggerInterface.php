@@ -1,5 +1,5 @@
 <?php
-namespace App;
+namespace Logger\App;
 
 /**
  * Declares methods and constants of app
