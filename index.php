@@ -11,25 +11,33 @@ $connect_db = $db->connect();
 //$file = new FileSystemLog();
 //$db_log = new DataBaseLog($connect_db);
 
-$user1 = new User($connect_db);
-$user1->load(23);
-echo $user1->getId();
-$user1->setFirstName('Jack346');
-$user1->setLastName('London4565');
-$user1->setEmail('london@gmail.com');
-$user1->save();
+// 1. Creating a record
 
-echo $user1->getFirstName() ."<br>";
+$user1 = new User($connect_db);
+$user1->setFirstName('John');
+$user1->setEmail('john.doe@test.com');
+
+$user1->save(); // new row added in db.
+
+echo $user1->getId() . '<br>'; // 1
+echo $user1->getFirstName() . '<br>'; // John
+
+// 2. Loading / updating a record
 
 $user2 = new User($connect_db);
-//$user2->load(41);
-$user2->setFirstName('User1');
-$user2->setLastName('User1');
-$user2->save();
+$user2->load(12);
+
+echo $user2->getId() . '<br>'; // 4
+echo $user2->getFirstName() . '<br>'; // Bob
+
+$user2->setFirstName('Robert');
+$user2->save(); // row updated in db.
+
+// 3. Deleting a record
 
 $user3 = new User($connect_db);
-$user3->load(27);
-$user3->delete();
+$user3->load(38);
+$user3->delete(); // row deleted in db.$user3->delete();
 //var_dump( $user3);
 //print_r($user1);
 
