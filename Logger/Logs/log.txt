@@ -12,3 +12,4 @@ Log error message : Mysql Exeption!!!! || 2016-06-28 14:29:44
 Log error message : Mysql Exeption!!!! || 2016-06-28 14:30:11
 Log error message : Mysql Exeption!!!! || 2016-06-28 15:01:05
 Log error message : Mysql Exeption!!!! || 2016-06-28 15:01:06
+Log error message : Mysql Exeption!!!! || 2016-06-30 18:00:43

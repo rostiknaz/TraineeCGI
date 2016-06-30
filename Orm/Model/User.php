@@ -38,7 +38,7 @@ class User extends Model
      */
     public function __construct($connect_db)
     {
-        parent::__construct($connect_db);
+        parent::__construct($connect_db,$this->_tableName);
     }
     
 
@@ -76,16 +76,6 @@ class User extends Model
      */
     public function getId(){
         return $this->_id;
-    }
-
-    /**
-     * Get table name
-     *
-     * @return string
-     */
-    public function getTableName()
-    {
-        return $this->_tableName;
     }
 
     /**

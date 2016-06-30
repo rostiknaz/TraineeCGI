@@ -10,6 +10,11 @@ use Orm\Helper\OrmAbstract;
 class Model extends OrmAbstract
 {
     /**
+     * @param null|string Table name.
+     */
+    protected $_tableName;
+    
+    /**
      * @param null|object Connection to db.
      */
     protected $_conn = NULL;
@@ -17,9 +22,10 @@ class Model extends OrmAbstract
     /**
      * Set connection property.
      */
-    public function __construct($connect_db)
+    public function __construct($connect_db,$tableName)
     {
         $this->_conn = $connect_db;
+        $this->_tableName = $tableName;
     }
 
     /**
@@ -35,9 +41,9 @@ class Model extends OrmAbstract
      *
      * @return string
      */
-    public function getTableName()
+    protected function _getTableName()
     {
-        return $this->getTableName();
+        return $this->_tableName;
     }
 
     /**
@@ -66,7 +72,7 @@ class Model extends OrmAbstract
      */
     protected function _getById($id)
     {
-        $sql = 'SELECT * FROM' . ' ' . $this->getTableName() . ' '
+        $sql = 'SELECT * FROM' . ' ' . $this->_getTableName() . ' '
              . 'WHERE id = ' . $id;
         try {
             $sth = $this->_conn->prepare($sql);
@@ -90,7 +96,7 @@ class Model extends OrmAbstract
             $update_array[] = $key . '=' . $prop . ' ';
         }
         try {
-            $sql = 'UPDATE ' . $this->getTableName() . ' '
+            $sql = 'UPDATE ' . $this->_getTableName() . ' '
                  . 'SET ' . implode(', ',$update_array) . ' '
                  . 'WHERE id = ' . $this->getId();
             return $this->_execute($sql);
@@ -106,12 +112,16 @@ class Model extends OrmAbstract
      */
     protected function _create()
     {
-        try {
-            $sql = 'INSERT INTO' . ' ' . $this->getTableName() . '(' . implode(', ',array_keys($this->_getPropetries())) . ') ' 
-                 . 'VALUES(' . implode(', ',array_values($this->_getPropetries())) . ')';
-            return $this->_execute($sql);
-        } catch (\PDOException $e) {
-            die($e->getMessage());
+        if(!empty($this->_getPropetries())) {
+            try {
+                $sql = 'INSERT INTO' . ' ' . $this->_getTableName() . '(' . implode(', ', array_keys($this->_getPropetries())) . ') '
+                    . 'VALUES(' . implode(', ', array_values($this->_getPropetries())) . ')';
+                return $this->_execute($sql);
+            } catch (\PDOException $e) {
+                die($e->getMessage());
+            }
+        } else {
+            return false;
         }
     }
 
@@ -123,7 +133,7 @@ class Model extends OrmAbstract
     public function delete()
     {
         try {
-            $sql = 'DELETE FROM' . ' ' . $this->getTableName() . ' '
+            $sql = 'DELETE FROM' . ' ' . $this->_getTableName() . ' '
                  . 'WHERE id = ' . $this->getId();
             return $this->_execute($sql);
         } catch (\PDOException $e) {

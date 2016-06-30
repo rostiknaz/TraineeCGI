@@ -16,9 +16,16 @@ class DataBaseLog extends LoggerAbstract
     /**
      * Connection process to DB
      */
-    public function __construct(){
-        $db = Connect::getInstance();
-        $this->_conn = $db->connect();
+    public function __construct($connect_db){
+        $this->_conn = $connect_db;
+    }
+
+    /**
+     * Close DB connection
+     */
+    public function __destruct()
+    {
+        $this->_conn = null;
     }
 
     /**
