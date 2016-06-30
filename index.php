@@ -14,12 +14,12 @@ $connect_db = $db->connect();
 $user1 = new User($connect_db);
 $user1->load(23);
 //echo $user1->getId();
-$user1->setFirstName('Jack');
-$user1->setLastName('London');
-$user1->setEmail('london@gmail.com');
+$user1->setFirstName('Jack346');
+$user1->setLastName('London4565');
+//$user1->setEmail('london@gmail.com');
 $user1->save();
 
-//echo $user1->getFirstName() ."<br>";
+echo $user1->getFirstName() ."<br>";
 
 $user2 = new User($connect_db);
 $user2->setFirstName('User1');
@@ -27,9 +27,9 @@ $user2->setLastName('User1');
 $user2->save();
 
 $user3 = new User($connect_db);
-$user3->load(32);
-//$user3->delete();
-echo $user3->getEmail();
+$user3->load(27);
+$user3->delete();
+//var_dump( $user3);
 //print_r($user1);
 
 unset($connect_db);

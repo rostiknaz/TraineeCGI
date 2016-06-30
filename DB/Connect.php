@@ -8,23 +8,23 @@ namespace DB;
 class Connect
 {
     /**
-     * @param null|object The single instance.
+     * @var null|object The single instance.
      */
     private static $_instance;
     /**
-     * @param null|string Database config.
+     * @var null|string Database config.
      */
     private $_dsn;
     /**
-     * @param null|string Username database.
+     * @var null|string Username database.
      */
     private $_username;
     /**
-     * @param null|string Database password.
+     * @var null|string Database password.
      */
     private $_password;
     /**
-     * @param null|object Connection to db.
+     * @var null|object Connection to db.
      */
     private $_dbh = null;
 

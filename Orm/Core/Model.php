@@ -15,11 +15,19 @@ class Model extends OrmAbstract
     protected $_conn = NULL;
 
     /**
-     * Connection process to DB.
+     * Set connection property.
      */
     public function __construct($connect_db)
     {
         $this->_conn = $connect_db;
+    }
+
+    /**
+     * Close connection to db.
+     */
+    public function __destruct()
+    {
+        $this->_conn = null;
     }
 
     /**
@@ -116,7 +124,7 @@ class Model extends OrmAbstract
     {
         try {
             $sql = 'DELETE FROM' . ' ' . $this->getTableName() . ' '
-                 . 'WHERE id=' . $this->getId();
+                 . 'WHERE id = ' . $this->getId();
             return $this->_execute($sql);
         } catch (\PDOException $e) {
             die($e->getMessage());
