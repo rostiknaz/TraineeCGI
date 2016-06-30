@@ -3,96 +3,50 @@ namespace Orm\Helper;
 
 use Orm\Core\OrmInterface;
 
+/**
+ * Abstract class OrmAbstract.
+ * It contains an implementations main method of orm system
+ */
 abstract class OrmAbstract implements OrmInterface
 {
 
-    private $_sql;
+    /**
+     * Create new record in database.
+     *
+     * @return bool
+     */
+    abstract protected function _create();
 
-    protected function _create()
-    {
-        try {
-            $sql = 'INSERT INTO ' . $this->_getTableName()
-                . '(' . implode(', ',array_keys($this->_getPropetries())) . ') VALUES('
-                . implode(', ',array_values($this->_getPropetries())) . ')';
-            return $this->_execute($sql);
-        } catch (\PDOException $e) {
-            die($e->getMessage());
-        }
-    }
+    /**
+     * Update existing record in database.
+     *
+     * @return bool
+     */
+    abstract protected function _update();
 
-    public function find()
-    {
-        $this->_sql = 'SELECT * FROM ' . $this->_getTableName();
-        return $this;
-    }
-
-//    public function where($statement)
-//    {
-//        $this->_sql .= ' WHERE ' . $statement;
-//        return $this;
-//    }
-
-//    public function fetch($count = 'all')
-//    {
-//        try {
-//            $sth = $this->_conn->prepare($this->_sql);
-//            $sth->execute();
-//            switch ($count) {
-//                case 'all':
-//                    $result = $sth->fetchAll(\PDO::FETCH_ASSOC);
-//                    break;
-//                case 'one':
-//                    $result = $sth->fetch(\PDO::FETCH_ASSOC);
-//                    break;
-//                default:
-//                    $result = false;
-//            }
-////            $this->_conn = null;
-//            return $result;
-//        } catch (\PDOException $e) {
-//            die($e->getMessage());
-//        }
-//    }
-
-    public function delete()
-    {
-        try {
-            $sql='DELETE FROM ' . $this->_getTableName() . ' WHERE id=' . $this->getId();
-            return $this->_execute($sql);
-        } catch (\PDOException $e) {
-            die($e->getMessage());
-        }
-    }
-    protected function _update()
-    {
-        $update_array = [];
-        foreach ($this->_getPropetries() as $key => $prop) {
-            $update_array[] = $key . '=' . $prop . ' ';
-        }
-        try {
-            $sql='UPDATE ' . $this->_getTableName() . ' SET ' . implode(', ',$update_array) . ' WHERE id=' . $this->getId();
-            return $this->_execute($sql);
-        } catch (\PDOException $e) {
-            die($e->getMessage());
-        }
-    }
-
-    abstract protected function _getPropetries();
-
-    protected function _execute($sql,$params = array())
-    {
-        $sth = $this->_conn->prepare($sql);
-        $result = $sth->execute($params);
-//        $this->_conn = null;
-        return $result;
-    }
-    
-    abstract protected function _getTableName();
-    
+    /**
+     * Fetch record by id
+     * 
+     * @param int|string $id Record Id.
+     *
+     * @return mixed
+     */
     abstract protected function _getById($id);
-    
+
+    /**
+     * Is new record or existing.
+     *
+     * @return bool
+     */
     abstract protected function _isNewRecord();
 
+    /**
+     * Load record by id
+     *
+     * @param int|string $id Record Id.
+     *
+     * @return object
+     */
     public function load($id)
     {
         $data = $this->_getById($id);
@@ -104,16 +58,21 @@ abstract class OrmAbstract implements OrmInterface
         }
         return $this;
     }
-    
-    
+
+    /**
+     * Save record to database. If the record doesn't exist yet — add it.
+     *
+     * @return bool
+     */
     public function save()
     {
-        if($this->_isNewRecord()){
+        if($this->_isNewRecord()) {
             $this->_create();
         } else {
             $this->_update();
         }
     }
+
 
 
 

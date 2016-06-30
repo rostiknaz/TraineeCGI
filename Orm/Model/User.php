@@ -14,6 +14,17 @@ class User extends Model
     protected $_last_name;
     protected $_email;
     
+    public function __construct($connect_db)
+    {
+        parent::__construct($connect_db);
+    }
+
+//    public function __call($name, $arguments)
+//    {
+//        $strim = mb_strimwidth($name, 0, 3);
+//        print_r($strim);
+//    }
+
     public function getFirstName(){
         return $this->_first_name;
     }
@@ -28,6 +39,11 @@ class User extends Model
 
     public function getId(){
         return $this->_id;
+    }
+
+    public function getTableName()
+    {
+        return $this->_tableName;
     }
 
     public function setFirstName($first_name){
