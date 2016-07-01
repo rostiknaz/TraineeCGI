@@ -36,9 +36,8 @@ class DataBaseLog extends LoggerAbstract
      */
     protected function _write($message,$type){
         try {
-            $statement = $this->_conn->prepare("INSERT INTO `log` (`message`, `type`, `creation_date`) values (?, ?, ?)");
+            $statement = $this->_conn->prepare("INSERT INTO `log` (`message`, `type`, `creation_date`) VALUES (?, ?, ?)");
             $statement->execute([$message, $type, date('Y-m-d H:i:s')]);
-            $this->_conn = null;
         } catch (\PDOException $e) {
             die($e->getMessage());
         }

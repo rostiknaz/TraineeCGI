@@ -38,7 +38,7 @@ class User extends Model
      */
     public function __construct($connect_db)
     {
-        parent::__construct($connect_db,$this->_tableName);
+        parent::__construct($connect_db, $this->_tableName, $this->_id);
     }
     
 
@@ -47,7 +47,8 @@ class User extends Model
      *
      * @return string|null
      */
-    public function getFirstName(){
+    public function getFirstName()
+    {
         return $this->_first_name;
     }
     
@@ -56,7 +57,8 @@ class User extends Model
      *
      * @return string|null
      */
-    public function getLastName(){
+    public function getLastName()
+    {
         return $this->_last_name;
     }
 
@@ -65,17 +67,9 @@ class User extends Model
      *
      * @return string|null
      */
-    public function getEmail(){
+    public function getEmail()
+    {
         return $this->_email;
-    }
-    
-    /**
-     * Get user id
-     *
-     * @return string|int|null
-     */
-    public function getId(){
-        return $this->_id;
     }
 
     /**
@@ -83,8 +77,8 @@ class User extends Model
      *
      * @param string $first_name First name.
      */
-    public function setFirstName($first_name){
-
+    public function setFirstName($first_name)
+    {
         $this->_first_name = $first_name;
     }
 
@@ -93,8 +87,8 @@ class User extends Model
      *
      * @param string $last_name Last name.
      */
-    public function setLastName($last_name){
-
+    public function setLastName($last_name)
+    {
         $this->_last_name = $last_name;
     }
     /**
@@ -102,8 +96,8 @@ class User extends Model
      *
      * @param string $email User email.
      */
-    public function setEmail($email){
-
+    public function setEmail($email)
+    {
         $this->_email = $email;
     }
 

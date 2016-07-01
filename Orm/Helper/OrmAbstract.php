@@ -13,14 +13,14 @@ abstract class OrmAbstract implements OrmInterface
     /**
      * Create new record in database.
      *
-     * @return bool
+     * @return bool|object
      */
     abstract protected function _create();
 
     /**
      * Update existing record in database.
      *
-     * @return bool
+     * @return bool|object
      */
     abstract protected function _update();
 

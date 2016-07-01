@@ -10,22 +10,27 @@ use Orm\Helper\OrmAbstract;
 class Model extends OrmAbstract
 {
     /**
-     * @param null|string Table name.
+     * @var null|string|int Record id.
+     */
+    protected $_id;
+    /**
+     * @var null|string Table name.
      */
     protected $_tableName;
     
     /**
-     * @param null|object Connection to db.
+     * @var null|object Connection to db.
      */
     protected $_conn = NULL;
 
     /**
      * Set connection property.
      */
-    public function __construct($connect_db,$tableName)
+    public function __construct($connect_db, $tableName, $id)
     {
         $this->_conn = $connect_db;
         $this->_tableName = $tableName;
+        $this->_id = $id;
     }
 
     /**
@@ -87,7 +92,7 @@ class Model extends OrmAbstract
     /**
      * Update existing record in database.
      *
-     * @return bool
+     * @return bool|object
      */
     protected function _update()
     {
@@ -99,7 +104,11 @@ class Model extends OrmAbstract
             $sql = 'UPDATE ' . $this->_getTableName() . ' '
                  . 'SET ' . implode(', ',$update_array) . ' '
                  . 'WHERE id = ' . $this->getId();
-            return $this->_execute($sql);
+            if($this->_execute($sql)) {
+                return $this->load($this->getId());
+            } else {
+                return false;
+            }
         } catch (\PDOException $e) {
             die($e->getMessage());
         }
@@ -108,15 +117,19 @@ class Model extends OrmAbstract
     /**
      * Create new record in database.
      *
-     * @return bool
+     * @return bool|object
      */
     protected function _create()
     {
         if(!empty($this->_getPropetries())) {
             try {
                 $sql = 'INSERT INTO' . ' ' . $this->_getTableName() . '(' . implode(', ', array_keys($this->_getPropetries())) . ') '
-                    . 'VALUES(' . implode(', ', array_values($this->_getPropetries())) . ')';
-                return $this->_execute($sql);
+                     . 'VALUES(' . implode(', ', array_values($this->_getPropetries())) . ')';
+                if($this->_execute($sql)) {
+                    return $this->load($this->_conn->lastInsertId());
+                } else {
+                    return false;
+                }
             } catch (\PDOException $e) {
                 die($e->getMessage());
             }
@@ -158,7 +171,7 @@ class Model extends OrmAbstract
      */
     public function getId()
     {
-        return $this->getId();
+        return $this->_id;
     }
 
     /**
