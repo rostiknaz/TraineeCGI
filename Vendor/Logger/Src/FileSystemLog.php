@@ -1,7 +1,7 @@
 <?php
-namespace Logger\App\File;
+namespace Vendor\Logger\Src;
 
-use Logger\App\Abstr\LoggerAbstract;
+use Vendor\Logger\Src\Abstr\LoggerAbstract;
 
 /**
  * Writes a log data to file

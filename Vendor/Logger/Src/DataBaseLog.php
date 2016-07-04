@@ -1,7 +1,7 @@
 <?php
 namespace Logger\App\DB;
 
-use Logger\App\Abstr\LoggerAbstract;
+use Vendor\Logger\Src\Abstr\LoggerAbstract;
 use DB\Connect;
 /**
  * Class for writing log messages to database
