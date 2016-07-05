@@ -1,7 +1,7 @@
 <?php
-namespace Vendor\Logger\Src\Abstr;
+namespace Vendor\Logger\Abstr;
 
-use Vendor\Logger\Src\Interf\LoggerInterface;
+use Vendor\Logger\Interf\LoggerInterface;
 
 /**
  * Abstract class LoggerAbstract

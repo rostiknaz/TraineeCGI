@@ -1,7 +1,8 @@
 <?php
-namespace Vendor\Orm\Src\Model;
+namespace Vendor\Orm;
 
-use Vendor\Orm\Src\Model\Interf\OrmInterface;
+
+use Vendor\Orm\Interf\OrmInterface;
 /**
  * Class Model.
  * It contains methods and properties who help to work with database and are common for all of model.

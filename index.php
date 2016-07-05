@@ -1,14 +1,24 @@
 <?php
 require_once 'Vendor/autoload.php';
 
-use Vendor\Logger\Src\FileSystemLog;
-use Vendor\Logger\Src\DataBaseLog;
-use App\Cgi\Src\Model\User;
+// instantiate the loader
+$loader = new \Autoload\Psr4AutoloaderClass;
+// register the autoloader
+$loader->register();
+// register the base directories for the namespace prefix
+$loader->addNamespace('App', __DIR__ . '/App/Cgi/Src');
+$loader->addNamespace('Vendor\Orm', __DIR__ . '/Vendor/Orm/Src/Model');
+$loader->addNamespace('Vendor\Logger', __DIR__ . '/Vendor/Logger/Src');
+$loader->addNamespace('DB', __DIR__ . '/DB');
+
+use Vendor\Logger\DataBaseLog;
+use Vendor\Logger\FileSystemLog;
+use App\Model\User;
 use DB\Connect;
 
 $db = Connect::getInstance();
 $connect_db = $db->connect();
-
+//
 $file = new FileSystemLog();
 $db_log = new DataBaseLog($connect_db);
 

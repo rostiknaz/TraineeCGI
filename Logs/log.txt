@@ -22,3 +22,12 @@ Log error message : Mysql Exeption!!!! || 2016-07-05 10:00:54
 Log error message : Mysql Exeption!!!! || 2016-07-05 12:04:01
 Log error message : Mysql Exeption!!!! || 2016-07-05 12:04:02
 Log error message : Mysql Exeption!!!! || 2016-07-05 12:04:03
+Log error message : Mysql Exeption!!!! || 2016-07-05 12:42:18
+Log error message : Mysql Exeption!!!! || 2016-07-05 12:46:06
+Log error message : Mysql Exeption!!!! || 2016-07-05 12:46:19
+Log error message : Mysql Exeption!!!! || 2016-07-05 12:52:24
+Log error message : Mysql Exeption!!!! || 2016-07-05 12:52:25
+Log error message : Mysql Exeption!!!! || 2016-07-05 12:54:05
+Log error message : Mysql Exeption!!!! || 2016-07-05 12:54:06
+Log error message : Mysql Exeption!!!! || 2016-07-05 12:54:07
+Log error message : Mysql Exeption!!!! || 2016-07-05 12:54:52

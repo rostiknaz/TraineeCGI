@@ -1,7 +1,7 @@
 <?php
-namespace App\Cgi\Src\Model;
+namespace App\Model;
 
-use Vendor\Orm\Src\Model\Model;
+use Vendor\Orm\Model;
 
 /**
  * Class User.

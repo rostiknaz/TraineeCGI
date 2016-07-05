@@ -1,8 +1,7 @@
 <?php
-namespace Vendor\Logger\Src;
+namespace Vendor\Logger;
 
-use Vendor\Logger\Src\Abstr\LoggerAbstract;
-use DB\Connect;
+use Vendor\Logger\Abstr\LoggerAbstract;
 /**
  * Class for writing log messages to database
  */

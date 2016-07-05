@@ -1,5 +1,5 @@
 <?php
-namespace Vendor\Orm\Src\Model\Interf;
+namespace Vendor\Orm\Interf;
 
 /**
  * Declares methods of orm system
