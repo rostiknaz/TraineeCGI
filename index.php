@@ -2,7 +2,7 @@
 require_once 'Vendor/autoload.php';
 
 use Vendor\Logger\Src\FileSystemLog;
-use Logger\App\DB\DataBaseLog;
+use Vendor\Logger\Src\DataBaseLog;
 use App\Cgi\Src\Model\User;
 use DB\Connect;
 

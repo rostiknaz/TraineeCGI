@@ -66,7 +66,7 @@ class Connect
 	 */
     private function _getConfigData()
     {
-        return parse_ini_file('Config/config.ini');
+        return parse_ini_file('Config/configDb.ini');
     }
 
     /**
@@ -80,5 +80,14 @@ class Connect
     }
     
     // Magic method clone is empty to prevent duplication of connection
-    private function __clone() { }
+    private function __clone()
+    {
+        throw new \Exception('Can not create more then one instance!!');
+    }
+
+    // Magic method clone is empty to prevent duplication of connection
+    private function __wakeup()
+    {
+        throw new \Exception('Can not create more then one instance!!');
+    }
 }

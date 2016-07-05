@@ -15,7 +15,7 @@ class FileSystemLog extends LoggerAbstract
      * @param $type
      */
     protected function _write($message,$type){
-        $config = parse_ini_file('Logger/Config/config.ini');
+        $config = parse_ini_file('Config/configLog.ini');
         if(is_writable($config['file_path'])) {
             $fp = fopen($config['file_path'], "a");
             fwrite($fp, 'Log ' . $type . ' message : ' . $message . ' || ' . date('Y-m-d H:i:s') . "\r\n");

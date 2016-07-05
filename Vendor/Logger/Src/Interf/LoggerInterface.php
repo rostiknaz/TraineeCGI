@@ -1,5 +1,5 @@
 <?php
-namespace Vendor\Logger\Src\Interf;;
+namespace Vendor\Logger\Src\Interf;
 
 /**
  * Declares methods and constants of app

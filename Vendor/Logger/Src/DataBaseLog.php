@@ -1,5 +1,5 @@
 <?php
-namespace Logger\App\DB;
+namespace Vendor\Logger\Src;
 
 use Vendor\Logger\Src\Abstr\LoggerAbstract;
 use DB\Connect;
@@ -15,6 +15,8 @@ class DataBaseLog extends LoggerAbstract
 
     /**
      * Connection process to DB
+     *
+     * @param object $connect_db
      */
     public function __construct($connect_db){
         $this->_conn = $connect_db;
@@ -31,10 +33,10 @@ class DataBaseLog extends LoggerAbstract
     /**
      * Writes a log message to database
      * 
-     * @param $message
-     * @param $type
+     * @param string $message Log message.
+     * @param string $type Log type.
      */
-    protected function _write($message,$type){
+    protected function _write($message, $type){
         try {
             $statement = $this->_conn->prepare("INSERT INTO `log` (`message`, `type`, `creation_date`) VALUES (?, ?, ?)");
             $statement->execute([$message, $type, date('Y-m-d H:i:s')]);
