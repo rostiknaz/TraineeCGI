@@ -1,13 +1,14 @@
 <?php
 namespace Cgi\Model;
 
+use Orm\Interf\OrmInterface;
 use Orm\Model;
 
 /**
  * Class User.
  * This class represent separate entity class of user table in database.
  */
-class User extends Model
+class User extends Model implements OrmInterface
 {
 
     /**
@@ -22,7 +23,7 @@ class User extends Model
      */
     public function __construct($connect_db)
     {
-        parent::__construct($connect_db, $this->_getTableName());
+        parent::__construct($connect_db, $this->_getTableName(), $this->_getIdFieldName());
     }
 
     /**
@@ -33,6 +34,16 @@ class User extends Model
     protected function _getTableName()
     {
         return 'user';
+    }
+
+    /**
+     * Get name of 'id' field
+     *
+     * @return string
+     */
+    protected function _getIdFieldName()
+    {
+        return 'user_id';
     }
 
 
@@ -53,7 +64,7 @@ class User extends Model
      */
     public function getId()
     {
-        return  !isset($this->_user['id']) ? null : $this->_user['id'];
+        return  !isset($this->_user['user_id']) ? null : $this->_user['user_id'];
     }
 
     /**
@@ -97,6 +108,15 @@ class User extends Model
     }
 
     /**
+     * Set user id
+     *
+     * @param int|string $id User id.
+     */
+    protected function _setId($id)
+    {
+        $this->_user[$this->_getIdFieldName()] = $id;
+    }
+    /**
      * Set last name
      *
      * @param string $last_name Last name.
@@ -115,13 +135,6 @@ class User extends Model
         $this->_user['email'] = $email;
     }
 
-    /**
-     * Unset data array
-     */
-    protected function _unsetData()
-    {
-        $this->_user = null;
-    }
 
     /**
      * Set data record.

@@ -29,11 +29,11 @@ abstract class Model implements OrmInterface
      * @param object $connect_db
      * @param string $tableName Table name.
      */
-    public function __construct($connect_db, $tableName)
+    public function __construct($connect_db, $tableName, $fieldIdName)
     {
         $this->_conn = $connect_db;
         $this->_tableName = $tableName;
-        $this->_fieldIdName = $this->_getFieldIdName();
+        $this->_fieldIdName = $fieldIdName;
     }
 
     /**
@@ -100,9 +100,7 @@ abstract class Model implements OrmInterface
                  . 'WHERE ' . $this->_fieldIdName . ' = ?';
             $params = array_values($data);
             array_push($params, $this->getId());
-            if($this->_execute($sql,$params)) {
-                $this->load($this->getId());
-            }
+            $this->_execute($sql,$params);
         } catch (\PDOException $e) {
             echo $e->getMessage();
         }
@@ -122,7 +120,7 @@ abstract class Model implements OrmInterface
                      . 'VALUES(' . implode(',', array_fill(0, count($data), '?')) . ')';
 
                 if($this->_execute($sql, array_values($data))) {
-                    $this->load($this->_conn->lastInsertId());
+                    $this->_setId($this->_conn->lastInsertId());
                 }
             } catch (\PDOException $e) {
                 echo $e->getMessage();
@@ -142,19 +140,13 @@ abstract class Model implements OrmInterface
                 $sql = 'DELETE FROM' . ' ' . $this->_getTableName() . ' '
                      . 'WHERE ' . $this->_fieldIdName . ' = ?';
                 $this->_execute($sql, array($this->getId()));
-                $this->_unsetData();
+                $this->_setData(null);
             } catch (\PDOException $e) {
                 echo $e->getMessage();
             }
         }
     }
 
-    /**
-     * Unset object data record.
-     *
-     * @return void
-     */
-    abstract protected function _unsetData();
 
     /**
      * Set data record.
@@ -164,6 +156,13 @@ abstract class Model implements OrmInterface
      * @return void
      */
     abstract protected function _setData($data);
+
+    /**
+     * Set record id.
+     *
+     * @param int|string $id
+     */
+    abstract protected function _setId($id);
 
     /**
      * Is new record or existing ?.
@@ -181,27 +180,6 @@ abstract class Model implements OrmInterface
      * @return int|string|null
      */
     abstract public function getId();
-
-    /**
-     * Get name of field "id" in database
-     *
-     * @return string
-     */
-    protected function _getFieldIdName()
-    {
-        $result = '';
-        try {
-            $sql = 'SHOW FIELDS FROM ' . $this->_getTableName();
-            $stmt = $this->_execute($sql);
-            $fields = $stmt->fetchAll(\PDO::FETCH_COLUMN);
-            if (!empty($fields)) {
-                $result = $fields[0];    
-            }
-        } catch (\Exception $e) {
-            echo $e->getMessage();
-        }
-        return (string) $result;
-    }
 
     /**
      * Helper function who execute sql query

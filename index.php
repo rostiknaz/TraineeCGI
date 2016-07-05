@@ -36,9 +36,9 @@ echo $user1->getFirstName() . '<br>'; // John
 // 2. Loading / updating a record
 //
 $user2 = new User($connect_db);
-$user2->load(5);
+$user2->load(155);
 
-$user2->setFirstName('Robert34645');
+$user2->setFirstName('Robert');
 $user2->save(); // row updated in db.
 
 echo $user2->getId() . '<br>'; // 4
@@ -47,11 +47,11 @@ echo $user2->getFirstName() . '<br>'; // Bob
 // 3. Deleting a record
 
 $user3 = new User($connect_db);
-//$user3->load(7);
+$user3->load(17);
 
-$user3->setLastName('User13');
-$user3->setFirstName('User547');
-$user3->delete(); // row deleted in db.$user3->delete();
+$user3->setLastName('User134');
+$user3->setFirstName('User54');
+//$user3->delete(); // row deleted in db.$user3->delete();
 echo $user3->getFirstName() . '<br>';
 $user3->save();
 print_r($user3->getFirstName()); // John
@@ -59,5 +59,6 @@ var_dump($user3);
 
 //$file->error('Mysql Exeption!!!!');
 //$db_log->error('Fatal error? unexpected ";"!!!');
+
 
 unset($connect_db);
