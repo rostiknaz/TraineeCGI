@@ -1,15 +1,18 @@
 <?php
-namespace Vendor\Orm;
+namespace Orm;
 
 
-use Vendor\Orm\Interf\OrmInterface;
+use Orm\Interf\OrmInterface;
 /**
  * Class Model.
  * It contains methods and properties who help to work with database and are common for all of model.
  */
 abstract class Model implements OrmInterface
 {
-
+    /**
+     * @var string Name of field "id".
+     */
+    protected $_fieldIdName;
     /**
      * @var null|string Table name.
      */
@@ -21,7 +24,7 @@ abstract class Model implements OrmInterface
     protected $_conn = NULL;
 
     /**
-     * Set connection property.
+     * Set connection property and table name.
      *
      * @param object $connect_db
      * @param string $tableName Table name.
@@ -30,6 +33,7 @@ abstract class Model implements OrmInterface
     {
         $this->_conn = $connect_db;
         $this->_tableName = $tableName;
+        $this->_fieldIdName = $this->_getFieldIdName();
     }
 
     /**
@@ -53,12 +57,9 @@ abstract class Model implements OrmInterface
     /**
      * Get record data.
      *
-     * @return array|null
+     * @return array
      */
-    protected function _getData()
-    {
-        return $this->_getData();
-    }
+    abstract protected function _getData();
 
     /**
      * Fetch record by id
@@ -70,7 +71,7 @@ abstract class Model implements OrmInterface
     protected function _getById($id)
     {
         $sql = 'SELECT * FROM' . ' ' . $this->_getTableName() . ' '
-             . 'WHERE id = ?';
+             . 'WHERE ' . $this->_fieldIdName . ' = ?';
         $result = null;
         try {
             $sth = $this->_execute($sql,array($id));
@@ -96,7 +97,7 @@ abstract class Model implements OrmInterface
         try {
             $sql = 'UPDATE ' . $this->_getTableName() . ' '
                  . 'SET ' . implode(', ',$update_array) . ' '
-                 . 'WHERE id = ?';
+                 . 'WHERE ' . $this->_fieldIdName . ' = ?';
             $params = array_values($data);
             array_push($params, $this->getId());
             if($this->_execute($sql,$params)) {
@@ -139,7 +140,7 @@ abstract class Model implements OrmInterface
         if (!$this->_isNewRecord()) {
             try {
                 $sql = 'DELETE FROM' . ' ' . $this->_getTableName() . ' '
-                    . 'WHERE id = ?';
+                     . 'WHERE ' . $this->_fieldIdName . ' = ?';
                 $this->_execute($sql, array($this->getId()));
                 $this->_unsetData();
             } catch (\PDOException $e) {
@@ -180,6 +181,27 @@ abstract class Model implements OrmInterface
      * @return int|string|null
      */
     abstract public function getId();
+
+    /**
+     * Get name of field "id" in database
+     *
+     * @return string
+     */
+    protected function _getFieldIdName()
+    {
+        $result = '';
+        try {
+            $sql = 'SHOW FIELDS FROM ' . $this->_getTableName();
+            $stmt = $this->_execute($sql);
+            $fields = $stmt->fetchAll(\PDO::FETCH_COLUMN);
+            if (!empty($fields)) {
+                $result = $fields[0];    
+            }
+        } catch (\Exception $e) {
+            echo $e->getMessage();
+        }
+        return (string) $result;
+    }
 
     /**
      * Helper function who execute sql query

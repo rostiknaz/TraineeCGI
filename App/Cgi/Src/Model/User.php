@@ -1,7 +1,7 @@
 <?php
-namespace App\Model;
+namespace Cgi\Model;
 
-use Vendor\Orm\Model;
+use Orm\Model;
 
 /**
  * Class User.
@@ -13,7 +13,7 @@ class User extends Model
     /**
      * @var array|null User data.
      */
-    protected $_data;
+    protected $_user;
 
     /**
      * Call parent construct for connection to db.
@@ -39,11 +39,11 @@ class User extends Model
     /**
      * Get all data
      *
-     * @return int|null
+     * @return array|null
      */
     protected function _getData()
     {
-        return  $this->_data;
+        return (array) $this->_user;
     }
     
     /**
@@ -53,7 +53,7 @@ class User extends Model
      */
     public function getId()
     {
-        return  !isset($this->_data['id']) ? null : $this->_data['id'];
+        return  !isset($this->_user['id']) ? null : $this->_user['id'];
     }
 
     /**
@@ -63,7 +63,7 @@ class User extends Model
      */
     public function getFirstName()
     {
-        return !isset($this->_data['first_name']) ? null : $this->_data['first_name'];
+        return !isset($this->_user['first_name']) ? null : $this->_user['first_name'];
     }
     
     /**
@@ -73,7 +73,7 @@ class User extends Model
      */
     public function getLastName()
     {
-        return !isset($this->_data['last_name']) ? null : $this->_data['last_name'];
+        return !isset($this->_user['last_name']) ? null : $this->_user['last_name'];
     }
 
     /**
@@ -83,7 +83,7 @@ class User extends Model
      */
     public function getEmail()
     {
-        return !isset($this->_data['email']) ? null : $this->_data['email'];
+        return !isset($this->_user['email']) ? null : $this->_user['email'];
     }
 
     /**
@@ -93,7 +93,7 @@ class User extends Model
      */
     public function setFirstName($first_name)
     {
-        $this->_data['first_name'] = $first_name;
+        $this->_user['first_name'] = $first_name;
     }
 
     /**
@@ -103,7 +103,7 @@ class User extends Model
      */
     public function setLastName($last_name)
     {
-        $this->_data['last_name'] = $last_name;
+        $this->_user['last_name'] = $last_name;
     }
     /**
      * Set user email
@@ -112,7 +112,7 @@ class User extends Model
      */
     public function setEmail($email)
     {
-        $this->_data['email'] = $email;
+        $this->_user['email'] = $email;
     }
 
     /**
@@ -120,7 +120,7 @@ class User extends Model
      */
     protected function _unsetData()
     {
-        $this->_data = null;
+        $this->_user = null;
     }
 
     /**
@@ -130,7 +130,7 @@ class User extends Model
      */
     protected function _setData($data)
     {
-        $this->_data = $data;
+        $this->_user = $data;
     }
 
 }
