@@ -11,16 +11,19 @@ $loader->addNamespace('Orm', __DIR__ . '/Vendor/Orm/Src/Model');
 $loader->addNamespace('Logger', __DIR__ . '/Vendor/Logger/Src');
 $loader->addNamespace('DB', __DIR__ . '/DB');
 
-use Logger\DataBaseLog;
-use Logger\FileSystemLog;
 use Cgi\Model\User;
 use DB\Connect;
+use Logger\LoggerAdapter;
+
 
 $db = Connect::getInstance();
 $connect_db = $db->connect();
+
+$logger = new LoggerAdapter();
+$log = $logger->getLoggerInstance();
 //
-$file = new FileSystemLog();
-$db_log = new DataBaseLog($connect_db);
+//$file = new FileSystemLog();
+//$db_log = new DataBaseLog($connect_db);
 
 // 1. Creating a record
 
@@ -36,7 +39,7 @@ echo $user1->getFirstName() . '<br>'; // John
 // 2. Loading / updating a record
 //
 $user2 = new User($connect_db);
-$user2->load(155);
+$user2->load(34);
 
 $user2->setFirstName('Robert');
 $user2->save(); // row updated in db.
@@ -57,8 +60,7 @@ $user3->save();
 print_r($user3->getFirstName()); // John
 var_dump($user3);
 
-//$file->error('Mysql Exeption!!!!');
-//$db_log->error('Fatal error? unexpected ";"!!!');
+$log->error('Mysql Exeption!!!!');
 
 
 unset($connect_db);

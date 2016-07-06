@@ -1,7 +1,6 @@
 <?php
 namespace Orm;
 
-
 use Orm\Interf\OrmInterface;
 /**
  * Class Model.
@@ -28,6 +27,7 @@ abstract class Model implements OrmInterface
      *
      * @param object $connect_db
      * @param string $tableName Table name.
+     * @param string|int $fieldIdName Id field name.
      */
     public function __construct($connect_db, $tableName, $fieldIdName)
     {

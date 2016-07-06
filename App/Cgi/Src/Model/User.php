@@ -50,7 +50,7 @@ class User extends Model implements OrmInterface
     /**
      * Get all data
      *
-     * @return array|null
+     * @return array
      */
     protected function _getData()
     {

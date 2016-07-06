@@ -85,7 +85,7 @@ class Connect
         throw new \Exception('Can not create more then one instance!!');
     }
 
-    // Magic method clone is empty to prevent duplication of connection
+    // Magic method wakeup is empty to prevent duplication of connection
     private function __wakeup()
     {
         throw new \Exception('Can not create more then one instance!!');
