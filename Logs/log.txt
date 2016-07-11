@@ -1,5 +1,0 @@
-
-
-Log error message : Mysql Exeption!!!! || 2016-07-06 12:38:08
-Log error message : Mysql Exeption!!!! || 2016-07-06 12:38:12
-Log error message : Mysql Exeption!!!! || 2016-07-06 12:46:41
