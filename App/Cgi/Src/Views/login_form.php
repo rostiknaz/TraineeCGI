@@ -4,12 +4,15 @@
             <div class="panel-heading">
                 <div class="panel-title">Sign In</div>
             </div>
-
             <div style="padding-top:30px" class="panel-body" >
+                <?php if(isset($data['errors']) && !empty($data['errors'])) {
+                    foreach ($data['errors'] as $error) { ?>
+                        <div id="login-alert" class="alert alert-danger col-sm-12"><?=$error?></div>
+                    <?php } ?>
+                <?php } ?>
 
-                <div style="display:none" id="login-alert" class="alert alert-danger col-sm-12"></div>
 
-                <form id="loginform" action="login/enter" class="form-horizontal" role="form" method="post">
+                <form id="loginform" action="login" class="form-horizontal" role="form" method="post">
 
                     <div style="margin-bottom: 25px" class="input-group">
                         <span class="input-group-addon"><i class="glyphicon glyphicon-user"></i></span>

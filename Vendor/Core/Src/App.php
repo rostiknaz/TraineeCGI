@@ -3,6 +3,8 @@
 namespace Core;
 
 
+use DB\Connect;
+
 class App
 {
     private static $_controllerName = 'Index';
@@ -11,6 +13,9 @@ class App
 
     public static function run()
     {
+        //get Database connection
+        $db = Connect::getInstance();
+        $connect_db = $db->connect();
 
         $routes = explode('/', $_SERVER['REQUEST_URI']);
 
@@ -34,7 +39,7 @@ class App
         $controller_path = "App/Cgi/Src/Controllers/".$controller_file;
         if(file_exists($controller_path)) {
             $controllerName = "Cgi\\Controllers\\" . $controller_name;
-            $controller = new $controllerName;
+            $controller = new $controllerName($connect_db);
         } else {
             App::_ErrorPage404();
         }
@@ -53,7 +58,7 @@ class App
     protected static function _ErrorPage404()
     {
         $controllerName = "Cgi\\Controllers\\IndexController";
-        $controller = new $controllerName;
+        $controller = new $controllerName();
         $controller->actionError404();
         exit();
     }

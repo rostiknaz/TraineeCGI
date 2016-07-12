@@ -12,16 +12,25 @@ namespace Cgi\Controllers;
 use Core\Controller;
 use Cgi\Model\User;
 
+
 class IndexController extends Controller
 {
 
     public function actionIndex()
     {
-//        header('Location: http://www.example.com/');
+        $user = new User($this->_dbConn);
+        if (!$user->isAuthenticated()) {
+            header('Location: http://' . $_SERVER['HTTP_HOST'] . '/login');
+        } else {
+            $data = [
+                'title' => 'Management panel'
+            ];
+            $this->_view->render('admin',$data);
+        }
     }
 
     public function actionError404()
     {
-        $this->_view->render('Layouts/main','error404');
+        $this->_view->render('error404');
     }
 }

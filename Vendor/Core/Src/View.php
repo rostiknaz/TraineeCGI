@@ -12,10 +12,10 @@ namespace Core;
 class View
 {
 
-    //public $template_view; // здесь можно указать общий вид по умолчанию.
+    public $template_view = 'Layouts/main'; // здесь можно указать общий вид по умолчанию.
 
-    public function render($content_view, $template_view, $data = null)
+    public function render($content_view, $data = null)
     {
-        include 'App/Cgi/Src/Views/'.$content_view . '.php';
+        include 'App/Cgi/Src/Views/'.$this->template_view . '.php';
     }
 }

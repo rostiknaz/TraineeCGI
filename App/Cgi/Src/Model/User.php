@@ -10,6 +10,7 @@ use Core\Model;
  */
 class User extends Model implements OrmInterface
 {
+    public $errors;
 
     /**
      * @var array|null User data.
@@ -75,6 +76,16 @@ class User extends Model implements OrmInterface
     public function getFirstName()
     {
         return !isset($this->_user['first_name']) ? null : $this->_user['first_name'];
+    }
+
+    /**
+     * Get access token
+     *
+     * @return string|null
+     */
+    public function getAccessToken()
+    {
+        return !isset($this->_user['access_token']) ? null : $this->_user['access_token'];
     }
     
     /**
@@ -146,6 +157,55 @@ class User extends Model implements OrmInterface
         $this->_user = $data;
     }
 
-    
+    public function validate($email, $password)
+    {
+        $result = false;
+        if(empty($email)) {
+            $this->errors[] = 'Email field is required!!';
+        } else {
+            $user = $this->_getUserByEmail($email);
+            if(!empty($user)) {
+                if(password_verify($password,$user['password'])){
+                    $this->load($user[$this->_fieldIdName]);
+                    $result = true;
+                } else {
+                    $this->errors[] = 'Password does not match!!!';
+                }
+            } else {
+                $this->errors[] = 'Email is wrong!!';
+            }
+        }
+        return $result;
+    }
+
+    private function _getUserByEmail($email)
+    {
+        $sql = 'SELECT * FROM' . ' ' . $this->_getTableName() . ' ' . 'WHERE  email = ?';
+        $result = null;
+        try {
+            $sth = $this->_execute($sql,array($email));
+            $result = $sth->fetch(\PDO::FETCH_ASSOC);
+        } catch (\PDOException $e) {
+            echo $e->getMessage();
+        }
+        return $result;
+    }
+
+    public function setPasswordHash($password)
+    {
+        $this->_user['password'] = password_hash($password, PASSWORD_BCRYPT);
+    }
+
+    public function setAccessToken()
+    {
+        $this->_user['access_token'] = bin2hex(openssl_random_pseudo_bytes(16));
+    }
+
+    public function isAuthenticated()
+    {
+        return isset($_SESSION['access_token']) && !empty($_SESSION['access_token']);
+    }
+
+
 
 }
