@@ -2,7 +2,7 @@
 namespace Cgi\Model;
 
 use Orm\Interf\OrmInterface;
-use Orm\Model;
+use Core\Model;
 
 /**
  * Class User.
@@ -145,5 +145,7 @@ class User extends Model implements OrmInterface
     {
         $this->_user = $data;
     }
+
+    
 
 }

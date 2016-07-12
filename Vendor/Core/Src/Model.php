@@ -1,5 +1,5 @@
 <?php
-namespace Orm;
+namespace Core;
 
 use Orm\Interf\OrmInterface;
 /**
