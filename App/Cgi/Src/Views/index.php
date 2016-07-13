@@ -27,7 +27,7 @@
         <div class="collapse navbar-collapse navbar-ex1-collapse">
             <ul class="nav navbar-nav side-nav">
                 <li class="active">
-                    <a href="index.html"><i class="fa fa-fw fa-dashboard"></i> Products import page</a>
+                    <a href="index.html"><i class="fa fa-fw fa-upload"></i> Products import page</a>
                 </li>
                 <li>
                     <a href="charts.html"><i class="fa fa-fw fa-bar-chart-o"></i> Products listing page</a>
@@ -65,7 +65,7 @@
                         <div class="panel-heading">
                             <div class="row">
                                 <div class="col-xs-3">
-                                    <i class="fa fa-comments fa-5x"></i>
+                                    <i class="fa fa-dashboard fa-5x"></i>
                                 </div>
                                 <div class="col-xs-9 text-right">
                                     <div class="huge">26</div>
@@ -86,8 +86,10 @@
             <!-- /.row -->
 
             <div class="row">
-                <input class="form-control" placeholder="Base Magento URL">
-                <button class="btn btn-danger" value="Import">
+                <form action="products/post" class="form-horizontal" role="form" method="post">
+                    <input class="form-control" name="mage_url" placeholder="Magento Base URL">
+                    <button type="submit" class="btn btn-danger">Import</button>
+                </form>
             </div>
             <!-- /.row -->
 

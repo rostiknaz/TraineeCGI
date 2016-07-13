@@ -25,7 +25,7 @@ class IndexController extends Controller
             $data = [
                 'title' => 'Management panel'
             ];
-            $this->_view->render('admin',$data);
+            $this->_view->render('index',$data);
         }
     }
 

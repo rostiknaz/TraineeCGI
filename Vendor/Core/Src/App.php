@@ -26,7 +26,12 @@ class App
 
         // получаем имя экшена
         if ( !empty($routes[2]) ) {
-            self::$_actionName = ucfirst($routes[2]);
+            if (strpos($routes[2],'?') !== false) {
+                $array_action = explode('?',$routes[2]);
+                self::$_actionName = ucfirst($array_action[0]);
+            }else{
+                self::$_actionName = ucfirst($routes[2]);
+            }
         }
 
         // добавляем префиксы
