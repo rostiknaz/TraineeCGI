@@ -2,11 +2,28 @@
 
 namespace Cgi\Controllers;
 
+use Cgi\Model\Product;
+use Cgi\Model\User;
 use Core\Controller;
+use Cgi\Helper\Paginator;
 use OAuth;
 
 class ProductsController extends Controller
 {
+    public function __construct($db_conn)
+    {
+        parent::__construct();
+        $this->_dbConn = $db_conn;
+        $user = new User($this->_dbConn);
+        if(!$user->isAuthenticated()){
+            header('Location: http://' . $_SERVER['HTTP_HOST'] . '/login');
+        }
+    }
+
+    public function actionIndex()
+    {
+        $this->actionList();
+    }
 
     public function actionPost()
     {
@@ -56,13 +73,81 @@ class ProductsController extends Controller
                 $resourceUrl = "$apiUrl/products?page=1&limit=0";
                 $oauthClient->fetch($resourceUrl, array(), 'GET', array("Content-Type" => "application/json", "Accept" => "*/*"));
                 $productsList = $this->_objectToArray(json_decode($oauthClient->getLastResponse()));
-//                foreach ($productsList as $product){
-//                    print_r($product);
-//                }
-                print_r($productsList);
+                $product = new Product($this->_dbConn);
+                $product->importProducts($productsList);
+//                $message = 'Products are imported!!';
+                $this->actionList();
             }
         } catch (\OAuthException $e) {
-            print_r($e);
+            $_SESSION['errors'] = $e->getMessage();
+            header('Location: http://' . $_SERVER['HTTP_HOST'] . '/');
+        }
+    }
+
+    public function actionList()
+    {
+        $_SESSION['page_limit'] = (isset($_GET['limit'])  && !empty($_GET['limit'])) ? $_GET['limit'] : '';
+        if((isset($_GET['limit'])           && !empty($_GET['limit'])) &&
+           (!isset($_SESSION['page_limit']) || empty($_SESSION['page_limit'])))
+        {
+            $_SESSION['page_limit'] = $this->_trimInjection($_GET['limit']);
+        }
+//        $limit = $_SESSION['page_limit'];
+        $product    = new Product($this->_dbConn);
+        $column     = (isset($_GET['column']) && !empty($_GET['column'])) ? $_GET['column'] : 'product_id';
+        $sort       = (isset($_GET['sort'])   && !empty($_GET['sort']))   ? $_GET['sort']   : 'ASC';
+        $limit      = (isset($_SESSION['page_limit']) && !empty($_SESSION['page_limit']))  ? $_SESSION['page_limit']  : 15;
+        $page       = (isset($_GET['page']) && !empty($_GET['page']))   ? $_GET['page']   : 1;
+        $products   = $product->getAllProducts($column, $sort, $page, $limit);
+        $data = [
+            'title'    => 'Product List',
+            'products' => $products,
+        ];
+        $this->_view->render('list',$data);
+    }
+
+    public function actionEdit()
+    {
+        $product = new Product($this->_dbConn);
+        $data = [];
+        if(isset($_GET['id']) && !empty($_GET['id'])){
+            $chekProduct = $product->checkProduct($_GET['id']);
+            if($chekProduct){
+                $product->load($_GET['id']);
+                $data = [
+                    'title'    => $product->getName(),
+                    'product' => $product,
+                ];
+                $this->_view->render('edit',$data);
+            } else {
+                header('Location: http://' . $_SERVER['HTTP_HOST'] . '/products/list');
+            }
+        } elseif (!empty($_POST['name']) && !empty($_POST['sku'])&& !empty($_POST['description'])){
+            $post_data = $_POST;
+            $new_data = [];
+            foreach ($post_data as $key=>$item){
+                $new_data[$key] = $this->_trimInjection($item);
+            }
+            if($product->validate($new_data)){
+                $product->setData($new_data);
+//                print_r($new_data);
+                $product->save();
+                $product->load($new_data['product_id']);
+                $data = [
+                    'success' => 'Product has been saved!!',
+                    'product'=> $product
+                ];
+                $this->_view->render('edit',$data);
+            } else {
+                $product->load($new_data['product_id']);
+                $data = [
+                    'errors' => $product->errors,
+                    'product'=> $product
+                ];
+                $this->_view->render('edit',$data);
+            }
+        } else {
+            header('Location: http://' . $_SERVER['HTTP_HOST'] . '/products/list');
         }
     }
 

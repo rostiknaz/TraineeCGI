@@ -155,7 +155,7 @@ abstract class Model implements OrmInterface
      *
      * @return void
      */
-    abstract protected function _setData($data);
+    abstract public function setData($data);
 
     /**
      * Set record id.
@@ -180,6 +180,13 @@ abstract class Model implements OrmInterface
      * @return int|string|null
      */
     abstract public function getId();
+
+    /**
+     * Get id field name.
+     *
+     * @return int|string|null
+     */
+    abstract protected function _getIdFieldName();
 
     /**
      * Helper function who execute sql query
@@ -207,7 +214,7 @@ abstract class Model implements OrmInterface
     {
         $data = $this->_getById($id);
         if(!empty($data)) {
-            $this->_setData($data);
+            $this->setData($data);
         }
     }
 

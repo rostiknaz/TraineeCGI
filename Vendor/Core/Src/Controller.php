@@ -2,6 +2,7 @@
 
 namespace Core;
 
+use Cgi\Model\User;
 use Core\View;
 
 class Controller
@@ -20,5 +21,12 @@ class Controller
     public function actionIndex()
     {
 
+    }
+    protected function _trimInjection($data)
+    {
+        $data = trim($data);
+        $data = stripslashes($data);
+        $data = htmlspecialchars($data);
+        return $data;
     }
 }

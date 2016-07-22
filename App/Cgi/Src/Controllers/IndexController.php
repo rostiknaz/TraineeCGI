@@ -9,6 +9,7 @@
 namespace Cgi\Controllers;
 
 
+use Cgi\Model\Product;
 use Core\Controller;
 use Cgi\Model\User;
 
@@ -19,11 +20,14 @@ class IndexController extends Controller
     public function actionIndex()
     {
         $user = new User($this->_dbConn);
+        $product = new Product($this->_dbConn);
         if (!$user->isAuthenticated()) {
             header('Location: http://' . $_SERVER['HTTP_HOST'] . '/login');
         } else {
+            $products = $product->findAll();
             $data = [
-                'title' => 'Management panel'
+                'title' => 'Management panel',
+                'countProducts' => count($products)
             ];
             $this->_view->render('index',$data);
         }

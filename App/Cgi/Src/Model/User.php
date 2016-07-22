@@ -152,7 +152,7 @@ class User extends Model implements OrmInterface
      *
      * @param array $data
      */
-    protected function _setData($data)
+    public function setData($data)
     {
         $this->_user = $data;
     }

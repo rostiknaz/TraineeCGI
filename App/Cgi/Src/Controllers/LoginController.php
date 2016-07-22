@@ -22,8 +22,8 @@ class LoginController extends Controller
         ];
         $user = new User($this->_dbConn);
         if (isset($_POST) && !empty($_POST)) {
-            $email = isset($_POST['email']) ? $this->trimInjection($_POST['email']) : null;
-            $password = isset($_POST['email']) ? $this->trimInjection($_POST['password']) : null;
+            $email = isset($_POST['email']) ? $this->_trimInjection($_POST['email']) : null;
+            $password = isset($_POST['email']) ? $this->_trimInjection($_POST['password']) : null;
             if ($user->validate($email, $password)) {
                 $_SESSION['first_name'] = $user->getFirstName();
                 $_SESSION['last_name'] = $user->getLastName();
@@ -49,13 +49,5 @@ class LoginController extends Controller
         header('Location: http://' . $_SERVER['HTTP_HOST'] . '/');
     }
 
-
-    private function trimInjection($data)
-    {
-        $data = trim($data);
-        $data = stripslashes($data);
-        $data = htmlspecialchars($data);
-        return $data;
-    }
 
 }
