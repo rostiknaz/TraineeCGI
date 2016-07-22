@@ -24,10 +24,10 @@ class IndexController extends Controller
         if (!$user->isAuthenticated()) {
             header('Location: http://' . $_SERVER['HTTP_HOST'] . '/login');
         } else {
-            $products = $product->findAll();
+            $products = $product->getAllProducts('product_id','ASC',1,'all');
             $data = [
                 'title' => 'Management panel',
-                'countProducts' => count($products)
+                'countProducts' => count($products['result']->data)
             ];
             $this->_view->render('index',$data);
         }

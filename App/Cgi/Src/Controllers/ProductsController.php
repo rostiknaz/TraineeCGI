@@ -86,18 +86,14 @@ class ProductsController extends Controller
 
     public function actionList()
     {
-        $_SESSION['page_limit'] = (isset($_GET['limit'])  && !empty($_GET['limit'])) ? $_GET['limit'] : '';
-        if((isset($_GET['limit'])           && !empty($_GET['limit'])) &&
-           (!isset($_SESSION['page_limit']) || empty($_SESSION['page_limit'])))
-        {
+        if((isset($_GET['limit']) && !empty($_GET['limit']))) {
             $_SESSION['page_limit'] = $this->_trimInjection($_GET['limit']);
         }
-//        $limit = $_SESSION['page_limit'];
         $product    = new Product($this->_dbConn);
-        $column     = (isset($_GET['column']) && !empty($_GET['column'])) ? $_GET['column'] : 'product_id';
-        $sort       = (isset($_GET['sort'])   && !empty($_GET['sort']))   ? $_GET['sort']   : 'ASC';
+        $column     = (isset($_GET['column'])         && !empty($_GET['column']))          ? $_GET['column']          : 'product_id';
+        $sort       = (isset($_GET['sort'])           && !empty($_GET['sort']))            ? $_GET['sort']            : 'ASC';
         $limit      = (isset($_SESSION['page_limit']) && !empty($_SESSION['page_limit']))  ? $_SESSION['page_limit']  : 15;
-        $page       = (isset($_GET['page']) && !empty($_GET['page']))   ? $_GET['page']   : 1;
+        $page       = (isset($_GET['page'])           && !empty($_GET['page']))            ? $_GET['page']            : 1;
         $products   = $product->getAllProducts($column, $sort, $page, $limit);
         $data = [
             'title'    => 'Product List',
@@ -130,7 +126,6 @@ class ProductsController extends Controller
             }
             if($product->validate($new_data)){
                 $product->setData($new_data);
-//                print_r($new_data);
                 $product->save();
                 $product->load($new_data['product_id']);
                 $data = [

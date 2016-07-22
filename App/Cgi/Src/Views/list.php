@@ -1,10 +1,19 @@
-<div class="btn-group" role="group" aria-label="...">
-    <button type="button" class="btn btn-default">10</button>
-    <button type="button" class="btn btn-default">20</button>
-    <button type="button" class="btn btn-default">30</button>
-    <button type="button" class="btn btn-default">40</button>
-</div>
-    <h2>Products List</h2>
+    <div class="row">
+        <div class="col-md-6">
+            <h2>Products List</h2>
+        </div>
+        <div class="col-md-6">
+            <form class="form-inline">
+            <div class="form-group">
+                <ul class="pagination pagination-md">
+                    <?php for($i=1;$i<=4;$i++):?>
+                        <li><a href="<?=SCRIPT_ROOT . 'products/list?limit=' . ($i*10) . '&page=1'?>"><?=($i*10)?></a></li>
+                    <?php endfor; ?>
+                </ul>
+            </div>
+            </form>
+        </div>
+    </div>
     <table class="table table-bordered">
         <thead>
         <tr>
@@ -26,5 +35,5 @@
         </tbody>
     </table>
     <div class="text-center">
-        <?php echo $data['products']['paginator']->createLinks(2,'pagination pagination-md'); ?>
+        <?php echo $data['products']['paginator']->createLinks(1,'pagination pagination-md'); ?>
     </div>
