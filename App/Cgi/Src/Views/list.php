@@ -1,4 +1,9 @@
-    <div class="row">
+<?php if(isset($data['message']) && !empty($data['message'])) {
+    foreach ($data['message'] as $key=>$value) { ?>
+        <div id="login-alert" class="alert alert-<?=$key?> col-sm-12"><?=$value?></div>
+    <?php } ?>
+<?php } ?>
+<div class="row">
         <div class="col-md-6">
             <h2>Products List</h2>
         </div>
@@ -18,8 +23,8 @@
         <thead>
         <tr>
             <th>Product Id</th>
-            <th><a href="<?=SCRIPT_ROOT . 'products/list?column=name&sort=' . (($data['products']['sort']  == 'ASC') ? 'DESC' : 'ASC')?>">Name <span class="<?='glyphicon glyphicon-arrow-' . (($data['products']['sort']  == 'ASC' && $data['products']['column'] == 'name') ? 'down' : 'up')?>"></span></a></th>
-            <th><a href="<?=SCRIPT_ROOT . 'products/list?column=final_price_with_tax&sort=' . (($data['products']['sort']  == 'ASC') ? 'DESC' : 'ASC')?>">Price <span class="<?='glyphicon glyphicon-arrow-' . (($data['products']['sort']  == 'ASC' && $data['products']['column'] == 'final_price_with_tax') ? 'up' : 'down')?>"></span></a></th>
+            <th><a href="<?=SCRIPT_ROOT . 'products/list?column=name&sort=' . (($data['products']['sort']  == 'ASC') ? 'DESC' : 'ASC')?>">Name <span class="<?='glyphicon glyphicon-arrow-' . $data['tag_name']['name']?>"></span></a></th>
+            <th><a href="<?=SCRIPT_ROOT . 'products/list?column=final_price_with_tax&sort=' . (($data['products']['sort']  == 'ASC') ? 'DESC' : 'ASC')?>">Price <span class="<?='glyphicon glyphicon-arrow-' . $data['tag_name']['price']?>"></span></a></th>
             <th></th>
         </tr>
         </thead>

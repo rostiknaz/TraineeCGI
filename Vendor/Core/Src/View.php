@@ -16,6 +16,10 @@ class View
 
     public function render($content_view, $data = null)
     {
-        include 'App/Cgi/Src/Views/'.$this->template_view . '.php';
+        if($_SERVER['REQUEST_URI'] == '/login'){
+            include 'App/Cgi/Src/Views/login_form.php';
+        } else {
+            include 'App/Cgi/Src/Views/'.$this->template_view . '.php';
+        }
     }
 }

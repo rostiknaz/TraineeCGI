@@ -75,16 +75,20 @@ class ProductsController extends Controller
                 $productsList = $this->_objectToArray(json_decode($oauthClient->getLastResponse()));
                 $product = new Product($this->_dbConn);
                 $product->importProducts($productsList);
-//                $message = 'Products are imported!!';
-                $this->actionList();
+                $message = [
+                    'success' => 'Products are imported!!'
+                ];
+                $this->actionList($message);
             }
         } catch (\OAuthException $e) {
-            $_SESSION['errors'] = $e->getMessage();
-            header('Location: http://' . $_SERVER['HTTP_HOST'] . '/');
+            $message = [
+                'danger' => $e->getMessage()
+            ];
+            $this->actionList($message);
         }
     }
 
-    public function actionList()
+    public function actionList($message = [])
     {
         if((isset($_GET['limit']) && !empty($_GET['limit']))) {
             $_SESSION['page_limit'] = $this->_trimInjection($_GET['limit']);
@@ -95,9 +99,14 @@ class ProductsController extends Controller
         $limit      = (isset($_SESSION['page_limit']) && !empty($_SESSION['page_limit']))  ? $_SESSION['page_limit']  : 15;
         $page       = (isset($_GET['page'])           && !empty($_GET['page']))            ? $_GET['page']            : 1;
         $products   = $product->getAllProducts($column, $sort, $page, $limit);
+
+        $tag_name['price'] = ($column == 'final_price_with_tax' && $sort == 'ASC') ? 'down' : 'up';
+        $tag_name['name']  = ($column == 'name'                 && $sort == 'ASC') ? 'down' : 'up';
         $data = [
             'title'    => 'Product List',
             'products' => $products,
+            'tag_name' => $tag_name,
+            'message'  => $message
         ];
         $this->_view->render('list',$data);
     }
@@ -129,6 +138,7 @@ class ProductsController extends Controller
                 $product->save();
                 $product->load($new_data['product_id']);
                 $data = [
+                    'title' => $product->getName(),
                     'success' => 'Product has been saved!!',
                     'product'=> $product
                 ];
@@ -136,6 +146,7 @@ class ProductsController extends Controller
             } else {
                 $product->load($new_data['product_id']);
                 $data = [
+                    'title' => $product->getName(),
                     'errors' => $product->errors,
                     'product'=> $product
                 ];

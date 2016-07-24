@@ -1,6 +1,11 @@
 
 
             <!-- Page Heading -->
+            <?php if(isset($data['success']) && !empty($data['success'])) { ?>
+
+                <div id="login-alert" class="alert alert-success col-sm-12"><?=$data['success']?></div>
+
+            <?php } ?>
             <div class="row">
                 <div class="col-lg-12">
                     <h1 class="page-header">

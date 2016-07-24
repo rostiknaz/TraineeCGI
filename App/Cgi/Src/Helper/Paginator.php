@@ -26,7 +26,7 @@ class Paginator
         $this->_limit   = $limit;
         $this->_page    = $page;
 
-        if ( $this->_limit == 'all' ) {
+        if ($this->_limit == 'all') {
             $query      = $this->_query;
         } else {
             $query      = $this->_query . " LIMIT " . ( ( $this->_page - 1 ) * $this->_limit ) . ", $this->_limit";

@@ -8,6 +8,8 @@
 
 namespace Cgi\Helper;
 
+use Cgi\Model\Product;
+use Core\Connect;
 
 class Validator
 {
@@ -26,6 +28,7 @@ class Validator
     public function validateVarcharInput($text)
     {
         $result = true;
+
         if(strlen($text) >= 255){
             $this->errors[] = 'The maximum number of characters allowed in the varchar inputs 255';
             $result = false;
@@ -36,7 +39,7 @@ class Validator
     public function validateFloatInput($int)
     {
         $result = true;
-        if(!is_numeric($int) || (abs($int) != $int)){
+        if(!is_numeric($int) || (abs($int) != $int) || strlen($int) > 10){
             $this->errors[] = 'Price does not valid!!!';
             $result = false;
         }

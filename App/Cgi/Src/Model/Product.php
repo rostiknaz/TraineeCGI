@@ -207,6 +207,11 @@ class Product extends Model
                     break;
                 case 'sku':
                     $result[] = (int) $validator->validateVarcharInput($item);
+                    $product = $this->getProductBySku($item);
+                    if($product['sku'] != $item){
+                        $result[] = false;
+                        $sku_error = 'Field sku does not editable';
+                    }
                     break;
                 case 'description':
                     $result[] = (int) $validator->validateTextInput($item);
@@ -220,6 +225,7 @@ class Product extends Model
             }
         }
         $this->errors = $validator->errors;
+        $this->errors[] = isset($sku_error) ? $sku_error : '';
         return ((array_search(0, $result) !== false) ? false : true);
     }
 

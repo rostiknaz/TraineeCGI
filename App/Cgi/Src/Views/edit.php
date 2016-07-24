@@ -1,6 +1,8 @@
 <?php if(isset($data['errors']) && !empty($data['errors'])) {
-    foreach ($data['errors'] as $error) { ?>
+    foreach ($data['errors'] as $error) {
+        if(!empty($error)) { ?>
         <div id="login-alert" class="alert alert-danger col-sm-12"><?=$error?></div>
+            <?php } ?>
     <?php } ?>
 <?php } ?>
 <?php if(isset($data['success']) && !empty($data['success'])) { ?>
